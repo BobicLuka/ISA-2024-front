@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/table.css"
 
 const ViewCompany = () => {
-    const companyId = localStorage.getItem("selectedCompanyId");
+    const company = JSON.parse(localStorage.getItem("selectedCompany"));
     const [equipment, setEquipment] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const ViewCompany = () => {
     
     const fetchEquipment = async () => {
         try {
-          const response = await fetch("http://localhost:8080/api/equipment/search/?companyId=" + companyId + "&name=" + searchQuery, {
+          const response = await fetch("http://localhost:8080/api/equipment/search/?companyId=" + company.id + "&name=" + searchQuery, {
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json"
@@ -31,9 +31,9 @@ const ViewCompany = () => {
       
 
     
-    const fuelSelectClickHandler = (company) => {
-        localStorage.setItem("selectedCompanyId", company.id);
-        //navigate("/viewCompany");
+    const fuelSelectClickHandler = (selectedEquipment) => {
+        localStorage.setItem("selectedEquipmentId", selectedEquipment.id);
+        navigate("/freeAppointments");
     };
 
     const handleSearch = async () => {

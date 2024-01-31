@@ -32,7 +32,7 @@ const Companies = () => {
 
     
     const fuelSelectClickHandler = (company) => {
-        localStorage.setItem("selectedCompanyId", company.id);
+        localStorage.setItem("selectedCompany", JSON.stringify(company));
         navigate("/viewCompany");
     };
 
