@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/table.css"
+import Navbar from "./Navbar";
 
 const MyComplaints = () => {
     const [complaints, setComplaints] = useState([]);
@@ -9,6 +10,10 @@ const MyComplaints = () => {
     const token = localStorage.getItem("token");
 
     useEffect(() => {
+      const loggedRole = localStorage.getItem("loggedRole");
+      if (loggedRole !== 'ROLE_USER') {
+        navigate("/");
+      }
         fetchComplaints();
     }, []);
     
@@ -34,6 +39,7 @@ const MyComplaints = () => {
 
     return (
     <div>
+      <Navbar></Navbar>
         <div className="game-history-container">
         <div className="game-history-table-container">
             <table className="game-history-table">

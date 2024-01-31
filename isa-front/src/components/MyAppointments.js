@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/table.css"
+import Navbar from "./Navbar";
 
 const MyAppointments = () => {
     const [appointments, setAppointments] = useState([]);
@@ -9,6 +10,10 @@ const MyAppointments = () => {
     const token = localStorage.getItem("token");
 
     useEffect(() => {
+        const loggedRole = localStorage.getItem("loggedRole");
+        if (loggedRole !== 'ROLE_USER') {
+          navigate("/");
+        }
         fetchAppointments();
     }, []);
     
@@ -22,8 +27,8 @@ const MyAppointments = () => {
             },
           });
           const data = await response.json();
-          
-          setAppointments(data);
+          const sortedDates = data.sort((a, b) => dateForSort(a.startDate) - dateForSort(b.startDate));
+          setAppointments(sortedDates);
         } catch (error) {
           console.log("Error fetching comapnies:", error);
         }
@@ -51,7 +56,18 @@ const MyAppointments = () => {
        
     };
 
+    const dateForSort = (dateString) => {
+        const year = dateString[0];
+        const month = dateString[1];
+        const day = dateString[2];
+        const hours = dateString[3];
     
+        // Create a new Date object using the parsed components
+        const formattedDate = new Date(year, month - 1, day, hours, 0, 0);
+    
+       
+        return formattedDate;
+    };
     const formatDate = (dateString) => {
         const year = dateString[0];
         const month = dateString[1];
@@ -70,6 +86,7 @@ const MyAppointments = () => {
 
     return (
     <div>
+        <Navbar></Navbar>
         <div className="game-history-container">
         <div className="game-history-table-container">
            

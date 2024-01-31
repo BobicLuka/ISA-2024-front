@@ -266,3 +266,20 @@
   color: #fff;
   cursor: pointer;
 }
+
+
+.center-container {
+  text-align: center;
+  height: 20vh; /* Adjust as needed */
+}
+
+/* Styled paragraphs */
+.center-container p {
+  font-size: 24px; /* Adjust the font size as needed */
+  margin: 60px 0; /* Adjust the margin as needed */
+}
+
+/* Strong tags within paragraphs */
+.center-container p strong {
+  font-weight: bold;
+}

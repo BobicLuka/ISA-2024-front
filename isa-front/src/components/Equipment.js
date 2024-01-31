@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/table.css"
+import Navbar from "./Navbar";
 
 const AllEquipment = () => {
     const [equipment, setEquipment] = useState([]);
@@ -31,10 +32,17 @@ const AllEquipment = () => {
     const handleSearch = async () => {
         fetchEquipment();
     };
-
+    const logoutClickHandler = () => {
+      navigate("/");
+    }
 
     return (
     <div>
+         {localStorage.getItem("token") !== null && (
+          <div>
+            <Navbar></Navbar>
+          </div>
+        )}
         <div className="game-history-container">
         <div className="game-history-table-container">
             <div className="search-container">
@@ -67,6 +75,11 @@ const AllEquipment = () => {
             </table>
         </div>
         </div>
+        {localStorage.getItem("token") === null && (
+          <div>
+            <button onClick={logoutClickHandler}>Go back</button>
+          </div>
+        )}
     </div>
     );
 }

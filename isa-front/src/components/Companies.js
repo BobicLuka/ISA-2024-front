@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/table.css"
+import Navbar from "./Navbar";
 
 const Companies = () => {
     const token = localStorage.getItem("token");
@@ -32,6 +33,9 @@ const Companies = () => {
 
     
     const fuelSelectClickHandler = (company) => {
+        if(localStorage.getItem('token') === null){
+          return;
+        }
         localStorage.setItem("selectedCompany", JSON.stringify(company));
         navigate("/viewCompany");
     };
@@ -51,40 +55,57 @@ const Companies = () => {
           }
       };
 
-
+      const logoutClickHandler = () => {
+        navigate("/");
+      }
     return (
-    <div>
+      <div>
+        {localStorage.getItem("token") !== null && (
+          <div>
+            <Navbar></Navbar>
+          </div>
+        )}
+
+       
+
         <div className="game-history-container">
-        <div className="game-history-table-container">
+          <div className="game-history-table-container">
             <div className="search-container">
-                <input
+              <input
                 type="text"
                 placeholder="Search companies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button onClick={handleSearch}>Search</button>
+              />
+              <button onClick={handleSearch}>Search</button>
             </div>
             <table className="game-history-table">
-            <thead>
+              <thead>
                 <tr>
-                <th>Name</th>
-                <th>Description</th>
+                  <th>Name</th>
+                  <th>Description</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
                 {companies.map((company) => (
-                    <tr onClick={() => fuelSelectClickHandler(company)} key={company.id}>
-                    <td>{company.name }</td>
+                  <tr
+                    onClick={() => fuelSelectClickHandler(company)}
+                    key={company.id}
+                  >
+                    <td>{company.name}</td>
                     <td>{company.description}</td>
-                    
-                    </tr>
+                  </tr>
                 ))}
-            </tbody>
+              </tbody>
             </table>
+          </div>
         </div>
-        </div>
-    </div>
+        {localStorage.getItem("token") === null && (
+          <div>
+            <button onClick={logoutClickHandler}>Go back</button>
+          </div>
+        )}
+      </div>
     );
 }
 

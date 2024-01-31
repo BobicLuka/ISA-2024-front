@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/form.css";
 import { useState, useEffect } from "react";
+import Navbar from "./Navbar";
 
 const CreateComplaint = () => {
     const navigate = useNavigate();
@@ -20,7 +21,7 @@ const CreateComplaint = () => {
 
     useEffect(() => {
         const loggedRole = localStorage.getItem("loggedRole");
-        if (loggedRole !== 'User') {
+        if (loggedRole !== 'ROLE_USER') {
           //window.alert("You are not logged.");
           navigate("/");
         }
@@ -97,100 +98,102 @@ const CreateComplaint = () => {
           window.alert("An error occurred during complaint making.");
         });
     };
-    const onCancelClickHandler = () => {
-        return navigate("/home");
-      };
+  
 
   
 
     return (
-      <div className="registration-form-container">
-        <div className="registration-form-wrapper">
-          <form className="registration-form" onSubmit={onCreateSubmit}>
-            <div className="radio-group">
-              <label className="item">
-                <input
-                  type="radio"
-                  name="complaintType"
-                  value="type1"
-                  checked={complaintType === "type1"}
-                  onChange={handleComplaintTypeChange}
-                />
-                On company admin
-              </label>
-              <label className="item">
-                <input
-                  type="radio"
-                  name="complaintType"
-                  value="type2"
-                  checked={complaintType === "type2"}
-                  onChange={handleComplaintTypeChange}
-                />
-                On company
-              </label>
-            </div>
-
-            {complaintType === "type1" ? (
-              <div className="select-group">
-                <label htmlFor="adminId" className="item">
-                  Select Admin
-                </label>
-                <select
-                  name="adminId"
-                  value={complaint.adminId}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select an Admin</option>
-                  {admins.map((admin) => (
-                    <option key={admin.id} value={admin.id}>
-                      {admin.name}
-                    </option>
-                  ))}
-                </select>
+      <div>
+        <Navbar></Navbar>
+        <div className="registration-form-container">
+          <div className="registration-form-wrapper">
+            <form className="registration-form" onSubmit={onCreateSubmit}>
+              <div className="input-group">
+                <div className="radio-group">
+                  <label className="item">
+                    <input
+                      type="radio"
+                      name="complaintType"
+                      value="type1"
+                      checked={complaintType === "type1"}
+                      onChange={handleComplaintTypeChange}
+                    />
+                    On company admin
+                  </label>
+                  <label className="item">
+                    <input
+                      type="radio"
+                      name="complaintType"
+                      value="type2"
+                      checked={complaintType === "type2"}
+                      onChange={handleComplaintTypeChange}
+                    />
+                    On company
+                  </label>
+                </div>
               </div>
-            ) : (
-              <div className="select-group">
-                <label htmlFor="companyId" className="item">
-                  Select Company
-                </label>
-                <select
-                  name="companyId"
-                  value={complaint.companyId}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select Company</option>
-                  {companies.map((company) => (
-                    <option key={company.id} value={company.id}>
-                      {company.name}
-                    </option>
-                  ))}
-                </select>
+              <div className="input-group">
+                {complaintType === "type1" ? (
+                  <div className="select-group">
+                    <label htmlFor="adminId" className="item">
+                      Select Admin
+                    </label>
+                    <select
+                      name="adminId"
+                      value={complaint.adminId}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select an Admin</option>
+                      {admins.map((admin) => (
+                        <option key={admin.id} value={admin.id}>
+                          {admin.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className="select-group">
+                    <label htmlFor="companyId" className="item">
+                      Select Company
+                    </label>
+                    <select
+                      name="companyId"
+                      value={complaint.companyId}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="">Select Company</option>
+                      {companies.map((company) => (
+                        <option key={company.id} value={company.id}>
+                          {company.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
-            )}
 
-            <div className="input-group">
-              <label htmlFor="text" className="item">
-                Text
-              </label>
-              <textarea
-                onChange={handleChange}
-                name="text"
-                rows="4" // Specify the number of rows you want to display
-                required
-              />
-            </div>
+              <div className="input-group">
+                <label htmlFor="text" className="item">
+                  Text
+                </label>
+                <textarea
+                  onChange={handleChange}
+                  name="text"
+                  rows="4" // Specify the number of rows you want to display
+                  required
+                />
+              </div>
 
-            <div className="button-group">
-              <button className="item" type="submit">
-                Submit
-              </button>
-              <button type="button" onClick={onCancelClickHandler}>
-                Cancel
-              </button>
-            </div>
-          </form>
+              <div className="button-group">
+                <button className="item" type="submit">
+                  Submit
+                </button>
+               
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     );

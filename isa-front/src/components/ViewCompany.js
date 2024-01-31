@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/table.css"
+import Navbar from "./Navbar";
 
 const ViewCompany = () => {
     const company = JSON.parse(localStorage.getItem("selectedCompany"));
@@ -42,40 +43,48 @@ const ViewCompany = () => {
 
 
     return (
-    <div>
+      <div>
+        <Navbar></Navbar>
+        <div className="center-container">
+          <p>
+            <strong>Company Name:</strong> {company.name}
+          </p>
+          <p>
+            <strong>Company Description:</strong> {company.description}
+          </p>
+        </div>
         <div className="game-history-container">
-        <div className="game-history-table-container">
+          <div className="game-history-table-container">
             <div className="search-container">
-                <input
+              <input
                 type="text"
                 placeholder="Search companies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button onClick={handleSearch}>Search</button>
+              />
+              <button onClick={handleSearch}>Search</button>
             </div>
             <table className="game-history-table">
-            <thead>
+              <thead>
                 <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Company Name</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Company Name</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
                 {equipment.map((eq) => (
-                    <tr onClick={() => fuelSelectClickHandler(eq)} key={eq.id}>
-                    <td>{eq.name }</td>
+                  <tr onClick={() => fuelSelectClickHandler(eq)} key={eq.id}>
+                    <td>{eq.name}</td>
                     <td>{eq.price}</td>
                     <td>{eq.companyName}</td>
-                    
-                    </tr>
+                  </tr>
                 ))}
-            </tbody>
+              </tbody>
             </table>
+          </div>
         </div>
-        </div>
-    </div>
+      </div>
     );
 }
 

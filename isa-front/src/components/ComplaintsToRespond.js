@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/table.css"
+import Navbar from "./Navbar";
 
 const ComplaintsToRespond = () => {
     const [complaints, setComplaints] = useState([]);
@@ -9,6 +10,10 @@ const ComplaintsToRespond = () => {
     const token = localStorage.getItem("token");
 
     useEffect(() => {
+        const loggedRole = localStorage.getItem("loggedRole");
+        if (loggedRole !== 'ROLE_SYSTEM_ADMIN') {
+          navigate("/");
+        }
         fetchComplaints();
     }, []);
     
@@ -36,6 +41,9 @@ const ComplaintsToRespond = () => {
 
     return (
     <div>
+         
+        <Navbar></Navbar>
+          
         <div className="game-history-container">
         <div className="game-history-table-container">
             <table className="game-history-table">

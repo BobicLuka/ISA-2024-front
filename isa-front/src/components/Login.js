@@ -40,14 +40,20 @@ const Login = () => {
     localStorage.setItem("token", token);
 
     try {
-      const response = await fetch("http://localhost:8080/api/company", {
+      const response = await fetch("http://localhost:8080/api/whoami", {
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          Authorization: token,
         },
       });
       const data = await response.json();
       localStorage.setItem("loggedRole", data.role);
+      if(data.role === "ROLE_SYSTEM_ADMIN"){
+        navigate('complaintsToRespond');
+        return;
+      }
+      navigate('companies')
     } catch (error) {
       console.log("Error fetching comapnies:", error);
     }
@@ -56,6 +62,14 @@ const Login = () => {
 
   const onRegistrateClickHandler = (event) => {
     return navigate("/registration");
+  };
+
+  const onCompaniesClickHandler = (event) => {
+    return navigate("/companies");
+  };
+
+  const onEquipmentClickHandler = (event) => {
+    return navigate("/equipment");
   };
 
   return (
@@ -88,6 +102,12 @@ const Login = () => {
             </button>
             <button type="button" onClick={onRegistrateClickHandler}>
               Dont have account?
+            </button>
+            <button type="button" onClick={onCompaniesClickHandler}>
+              Companies
+            </button>
+            <button type="button" onClick={onEquipmentClickHandler}>
+              Equipment
             </button>
           </div>
         </form>
