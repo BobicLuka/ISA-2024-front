@@ -19,6 +19,11 @@ const CreateComplaint = () => {
   
 
     useEffect(() => {
+        const loggedRole = localStorage.getItem("loggedRole");
+        if (loggedRole !== 'User') {
+          //window.alert("You are not logged.");
+          navigate("/");
+        }
         fetchAdmins();
         fetchCompanies();
     }, []);
@@ -70,6 +75,7 @@ const CreateComplaint = () => {
       };
 
     const onCreateSubmit = async (event) => {
+      event.preventDefault();
       fetch("http://localhost:8080/api/complaint", {
         method: "POST",
         headers: { 
@@ -84,7 +90,7 @@ const CreateComplaint = () => {
           }
   
           window.alert("Thank you for helping us to improve our service.");
-          return navigate("/");
+          return navigate("/myComplaints");
         })
         .catch((error) => {
           console.error(error);

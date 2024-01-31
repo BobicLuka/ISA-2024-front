@@ -38,6 +38,19 @@ const Login = () => {
 
     const token = `Bearer ${data.accessToken}`;
     localStorage.setItem("token", token);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/company", {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+      });
+      const data = await response.json();
+      localStorage.setItem("loggedRole", data.role);
+    } catch (error) {
+      console.log("Error fetching comapnies:", error);
+    }
     
   };
 
