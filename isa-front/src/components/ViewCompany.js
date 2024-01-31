@@ -3,26 +3,26 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/table.css"
 
-const Companies = () => {
-    const token = localStorage.getItem("token");
-    const [companies, setCompanies] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+const ViewCompany = () => {
+    const companyId = localStorage.getItem("selectedCompanyId");
+    const [equipment, setEquipment] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchCompanies();
+        fetchEquipment();
     }, []);
     
-    const fetchCompanies = async () => {
+    const fetchEquipment = async () => {
         try {
-          const response = await fetch("http://localhost:8080/api/company", {
+          const response = await fetch("http://localhost:8080/api/equipment/search/?companyId=" + companyId + "&name=" + searchQuery, {
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json"
             },
           });
           const data = await response.json();
-          setCompanies(data);
+          setEquipment(data);
         } catch (error) {
           console.log("Error fetching comapnies:", error);
         }
@@ -33,22 +33,11 @@ const Companies = () => {
     
     const fuelSelectClickHandler = (company) => {
         localStorage.setItem("selectedCompanyId", company.id);
-        navigate("/viewCompany");
+        //navigate("/viewCompany");
     };
 
     const handleSearch = async () => {
-        try {
-            const response = await fetch("http://localhost:8080/api/company/search/?name=" + searchQuery, {
-              headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
-              },
-            });
-            const data = await response.json();
-            setCompanies(data);
-          } catch (error) {
-            console.log("Error fetching comapnies:", error);
-          }
+        fetchEquipment();
       };
 
 
@@ -69,14 +58,16 @@ const Companies = () => {
             <thead>
                 <tr>
                 <th>Name</th>
-                <th>Description</th>
+                <th>Price</th>
+                <th>Company Name</th>
                 </tr>
             </thead>
             <tbody>
-                {companies.map((company) => (
-                    <tr onClick={() => fuelSelectClickHandler(company)} key={company.id}>
-                    <td>{company.name }</td>
-                    <td>{company.description}</td>
+                {equipment.map((eq) => (
+                    <tr onClick={() => fuelSelectClickHandler(eq)} key={eq.id}>
+                    <td>{eq.name }</td>
+                    <td>{eq.price}</td>
+                    <td>{eq.companyName}</td>
                     
                     </tr>
                 ))}
@@ -88,4 +79,4 @@ const Companies = () => {
     );
 }
 
-export default Companies;
+export default ViewCompany;
