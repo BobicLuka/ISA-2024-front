@@ -16,43 +16,52 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <ul>
-       
+      {role === "ROLE_USER" && (
+        <>
+          <li>
+            <Link to="/companies">All companies</Link>
+          </li>
+          <li>
+            <Link to="/myAppointments">My appointments</Link>
+          </li>
+          <li>
+            <Link to="/createComplaint">Create Complaint</Link>
+          </li>
+          <li>
+            <Link to="/myComplaints">My complaints</Link>
+          </li>
+          <li>
+            <Link to="/myProfile">Profile</Link>
+          </li>
+        </>
+      )}
+
+      {role === "ROLE_SYSTEM_ADMIN" && (
+        <>
+          <li>
+            <Link to="/complaintsToRespond">Complaints to respond</Link>
+          </li>
+          <li>
+            <Link to="/myProfile">My profile</Link>
+          </li>
+        </>
+      )}
+
+      {role === "ROLE_ADMIN" && (
+        <>
+          <li>
+            <Link to="/myProfile">My profile</Link>
+          </li>
+        </>
+      )}
+
+      <li>
+        <button onClick={logoutClickHandler}>Log out</button>
+      </li>
+    
+    </ul>
       
-        {role === "ROLE_USER" ? (
-          <ul>
-            <li>
-              <Link to="/companies">All companies</Link>
-            </li>
-            <li>
-              <Link to="/myAppointments">My appointments</Link>
-            </li>
-            <li>
-              <Link to="/createComplaint">Create Complaint</Link>
-            </li>
-            <li>
-              <Link to="/myComplaints">My complaints</Link>
-            </li>
-            <li>
-              <Link to="/myProfile">Profile</Link>
-            </li>
-            <li>
-              <button onClick={logoutClickHandler}>Log out</button>
-            </li>
-          </ul>
-        ) : (
-          <ul>
-            <li>
-              <Link to="/complaintsToRespond">Complaints to respond</Link>
-            </li>
-            <li>
-              <Link to="/myProfile">My profile</Link>
-            </li>
-            <li>
-              <button onClick={logoutClickHandler}>Log out</button>
-            </li>
-          </ul>
-        )}
-      </ul>
+     
     </nav>
   );
 };

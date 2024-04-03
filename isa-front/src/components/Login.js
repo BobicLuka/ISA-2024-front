@@ -28,10 +28,10 @@ const Login = () => {
       },
       body: JSON.stringify(user),
     });
-    if(response.status === 400){
+    if(response.status === 400 || response.status === 403){
         return window.alert("Wrong username or password!")
     }
-    if(response.status === 401){
+    if(response.status === 401 ){
       return window.alert("Cant login!")
     }
     const data = await response.json();
